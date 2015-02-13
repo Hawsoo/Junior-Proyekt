@@ -1,4 +1,4 @@
-package me.hawsoo.util.shader;
+package me.hawsoo.juniorproyekt.util.shader;
 
 import static org.lwjgl.opengl.GL20.glUniform1f;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4;

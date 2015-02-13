@@ -1,4 +1,4 @@
-package me.hawsoo;
+package me.hawsoo.juniorproyekt;
 
 import static org.lwjgl.opengl.GL11.GL_BACK;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
@@ -33,7 +33,7 @@ import static org.lwjgl.opengl.GL11.glViewport;
 import java.awt.Point;
 import java.nio.ByteBuffer;
 
-import me.hawsoo.res.Resources;
+import me.hawsoo.juniorproyekt.res.Resources;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Controllers;
@@ -54,7 +54,7 @@ public class Game
 	private boolean running = true;
 	private int displayWidth = 0, displayHeight = 0;
 	
-	// BETA
+	// BETA model scaling
 	private static int scalefactor = 100;
 	
 	/**
@@ -226,10 +226,10 @@ public class Game
 							// Translate matrix to the camera
 							glTranslatef(-Resources.mainCamera.getPosition().x, -Resources.mainCamera.getPosition().y, 0);
 							
-							// BETA here: scaling is unnecessary except for the beta
+							// BETA scaling is unnecessary in real concepts
 							glScalef(2 * scalefactor, 2 * scalefactor, 2 * scalefactor);
 							
-							// (BETA here, this(ese) should be AFTER the rotation
+							// BETA lighting is moving independent from camera rotation
 							glLight(GL_LIGHT0, GL_POSITION, Resources.asFloatBuffer(new float[] {0, 0, 25, 1}));
 							
 							// Rotate matrix to the camera

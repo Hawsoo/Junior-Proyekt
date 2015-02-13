@@ -1,4 +1,4 @@
-package me.hawsoo.util.convenience;
+package me.hawsoo.juniorproyekt.util.convenience;
 
 import static org.lwjgl.opengl.GL11.GL_DIFFUSE;
 import static org.lwjgl.opengl.GL11.GL_FRONT;

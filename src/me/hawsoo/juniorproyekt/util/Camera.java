@@ -1,6 +1,6 @@
-package me.hawsoo.util;
+package me.hawsoo.juniorproyekt.util;
 
-import me.hawsoo.res.Resources;
+import me.hawsoo.juniorproyekt.res.Resources;
 
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;

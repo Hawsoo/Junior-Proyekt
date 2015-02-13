@@ -1,4 +1,4 @@
-import me.hawsoo.Game;
+import me.hawsoo.juniorproyekt.Game;
 
 /**
  * This class starts the game.

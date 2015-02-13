@@ -64,5 +64,5 @@ void main()
 	// Calculate outline
 	
 	// Set total color
-	gl_FragColor = vec4(gl_FrontLightModelProduct.sceneColor.xyz + ambience.xyz + /*applyCelShading(*/diffuse.xyz + specular/*)*/.xyz, 1.0);
+	gl_FragColor = vec4(gl_FrontLightModelProduct.sceneColor.xyz + ambience.xyz + /*applyCelShading(*/diffuse.xyz + specular /*)*/.xyz, 1.0);
 }

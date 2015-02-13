@@ -1,4 +1,4 @@
-package me.hawsoo.util.model;
+package me.hawsoo.juniorproyekt.util.model;
 
 import org.lwjgl.util.vector.Vector3f;
 

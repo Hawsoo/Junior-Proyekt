@@ -1,8 +1,8 @@
-package me.hawsoo.util.shader;
+package me.hawsoo.juniorproyekt.util.shader;
 
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUseProgram;
-import me.hawsoo.res.Resources;
+import me.hawsoo.juniorproyekt.res.Resources;
 
 /**
  * This shader is the default shader of the program.

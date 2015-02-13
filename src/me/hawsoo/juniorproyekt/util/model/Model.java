@@ -1,4 +1,4 @@
-package me.hawsoo.util.model;
+package me.hawsoo.juniorproyekt.util.model;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
@@ -8,8 +8,8 @@ import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.hawsoo.util.convenience.HandyUtils;
-import me.hawsoo.util.shader.Shader;
+import me.hawsoo.juniorproyekt.util.convenience.HandyUtils;
+import me.hawsoo.juniorproyekt.util.shader.Shader;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.util.vector.Vector3f;
@@ -25,10 +25,8 @@ public class Model
 	public List<Vector3f> normals = new ArrayList<Vector3f>();
 	public List<Face> faces = new ArrayList<Face>();
 	
-	// BETA
 	public int vboVertexHandle;
 	public int vboNormalHandle;
-	// EndBETA
 	
 	public boolean includeVerts = false;
 	public boolean includeNorms = false;

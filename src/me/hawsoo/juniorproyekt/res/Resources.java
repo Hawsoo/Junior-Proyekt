@@ -1,13 +1,13 @@
-package me.hawsoo.res;
+package me.hawsoo.juniorproyekt.res;
 
 import java.awt.Point;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 
-import me.hawsoo.util.Camera;
-import me.hawsoo.util.model.Model;
-import me.hawsoo.util.model.ObjModel;
-import me.hawsoo.util.shader.DefaultShader;
+import me.hawsoo.juniorproyekt.util.Camera;
+import me.hawsoo.juniorproyekt.util.model.Model;
+import me.hawsoo.juniorproyekt.util.model.ObjModel;
+import me.hawsoo.juniorproyekt.util.shader.DefaultShader;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.Display;
@@ -29,7 +29,7 @@ public class Resources
 	
 	public static Point halfwayPointTransformation = new Point(0, 0);
 	
-	public static String dirRes = "/me/hawsoo/res/";
+	public static String dirRes = "/me/hawsoo/juniorproyekt/res/";
 	
 	// Objects
 	public static Camera mainCamera;

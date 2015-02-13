@@ -1,4 +1,4 @@
-package me.hawsoo.util.model;
+package me.hawsoo.juniorproyekt.util.model;
 
 import java.io.BufferedReader;
 import java.io.File;
