@@ -38,7 +38,7 @@ public class AboutApp extends JDialog
 		SpringLayout springLayout = new SpringLayout();
 		getContentPane().setLayout(springLayout);
 		
-		JLabel lblLeveleditorlogo = new JLabel("");
+		JLabel lblLeveleditorlogo = new JLabel();
 		lblLeveleditorlogo.setIcon(new ImageIcon(LEresources.imgBanner));
 		springLayout.putConstraint(SpringLayout.NORTH, lblLeveleditorlogo, 0, SpringLayout.NORTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, lblLeveleditorlogo, 0, SpringLayout.WEST, getContentPane());

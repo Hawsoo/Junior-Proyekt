@@ -32,7 +32,13 @@ import static org.lwjgl.opengl.GL11.glViewport;
 
 import java.awt.Point;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
+import me.hawsoo.juniorproyekt.engine.gameobject.gamestate.BETAgamestate;
+import me.hawsoo.juniorproyekt.engine.gameobject.gamestate.GameState;
+import me.hawsoo.juniorproyekt.engine.input.VC_Keyboard;
+import me.hawsoo.juniorproyekt.engine.input.VirtualController;
 import me.hawsoo.juniorproyekt.res.Resources;
 
 import org.lwjgl.LWJGLException;
@@ -54,8 +60,14 @@ public class Game
 	private boolean running = true;
 	private int displayWidth = 0, displayHeight = 0;
 	
+	private GameState room;
+	
+	// BETA the basic input
+	public static final int PLAYER_ONE = 0;
+	public static List<VirtualController> controllers = new ArrayList<VirtualController>();
+	
 	// BETA model scaling
-	private static int scalefactor = 100;
+	private static int scalefactor = 1/*00*/;
 	
 	/**
 	 * Starts the whole game.
@@ -126,8 +138,13 @@ public class Game
 		
 		// Setup Game Loop
 		Resources.init();
+		room = new BETAgamestate();
 		
-		int rot = 45;
+		controllers.add(new VC_Keyboard(
+				Keyboard.KEY_LEFT, Keyboard.KEY_RIGHT, Keyboard.KEY_UP, Keyboard.KEY_DOWN,
+				Keyboard.KEY_C, Keyboard.KEY_X, Keyboard.KEY_Z));
+		
+		int rot = 0;
 		
 		// Game Loop
 		while (running)
@@ -139,7 +156,13 @@ public class Game
 				{
 					Mouse.poll();
 					
-					rot = Mouse.getX();
+//					rot = Mouse.getX(); BETA here
+					
+					// Get all input
+					for (VirtualController controller : controllers)
+					{
+						controller.pumpInput();
+					}
 
 					// Setup camera
 					Resources.mainCamera.setAngle(new Vector3f(0, rot, 0));
@@ -189,7 +212,11 @@ public class Game
 				// UPDATE //
 				////////////
 				{
+					// Update resources
 					Resources.update();
+					
+					// Update the room
+					room.update();
 					// ////////////////
 					// update stuff //
 //					gamestate.update();
@@ -237,10 +264,10 @@ public class Game
 							glRotatef(Resources.mainCamera.getAngle().y, 0, 1, 0);
 							glRotatef(Resources.mainCamera.getAngle().z, 0, 0, 1);
 							
-							
-							
+							// Render the room
+							room.render();
 //							glTranslatef(-0.5f * scalefactor, 0, 0);
-							Resources.contra.render();
+//							Resources.contra.render();		// BETA draws a contra bugle
 							
 //							glTranslatef(1 * scalefactor, 0, 0);
 //							Resources.contra.render();

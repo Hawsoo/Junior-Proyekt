@@ -222,7 +222,7 @@ public class LevelEditorApp
 	private void setupWindow()
 	{
 		frame.getContentPane().setPreferredSize(DEFAULT_DIMENSIONS);
-//		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);					// BETA uncomment this when not using WindowBuilder
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);

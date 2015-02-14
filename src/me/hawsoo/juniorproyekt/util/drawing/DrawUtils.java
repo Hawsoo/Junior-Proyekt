@@ -1,4 +1,4 @@
-package me.hawsoo.juniorproyekt.util.convenience;
+package me.hawsoo.juniorproyekt.util.drawing;
 
 import static org.lwjgl.opengl.GL11.GL_DIFFUSE;
 import static org.lwjgl.opengl.GL11.GL_FRONT;
@@ -7,12 +7,11 @@ import static org.lwjgl.opengl.GL11.glColorMaterial;
 
 /**
  * This is a set of convenience methods
- * that help... yeah, because I'm too
- * lazy.
+ * that help with drawing and coloring.
  * @author Administrator
  *
  */
-public class HandyUtils
+public class DrawUtils
 {
 	/**
 	 * This will set the oclor and material for

@@ -38,19 +38,6 @@ public class DefaultShader extends Shader
 		u_celLowMultiplier = glGetUniformLocation(shaderID, "celLowMultiplier");
 	}
 	
-	/**
-	 * Sets the light in the shader.
-	 * @param light - a light object
-	 */
-	/*public void setLight(Light light)
-	{
-		lightIntensity = light.getPosition();
-		lightcolor = light.getColor();
-	}*/
-
-	/**
-	 * Uses the default shader.
-	 */
 	@Override
 	public void useShader()
 	{

@@ -8,7 +8,7 @@ import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.hawsoo.juniorproyekt.util.convenience.HandyUtils;
+import me.hawsoo.juniorproyekt.util.drawing.DrawUtils;
 import me.hawsoo.juniorproyekt.util.shader.Shader;
 
 import org.lwjgl.BufferUtils;
@@ -25,8 +25,8 @@ public class Model
 	public List<Vector3f> normals = new ArrayList<Vector3f>();
 	public List<Face> faces = new ArrayList<Face>();
 	
-	public int vboVertexHandle;
-	public int vboNormalHandle;
+	private int vboVertexHandle;
+	private int vboNormalHandle;
 	
 	public boolean includeVerts = false;
 	public boolean includeNorms = false;
@@ -51,12 +51,12 @@ public class Model
 		// Store values into buffers
 		for (Face face : faces)
 		{
-			// Load a vertex
+			// Load each vertex for the triangle
 			verticesBuffer.put(asFloats(vertices.get((int)face.vertex.x - 1)));
 			verticesBuffer.put(asFloats(vertices.get((int)face.vertex.y - 1)));
 			verticesBuffer.put(asFloats(vertices.get((int)face.vertex.z - 1)));
 			
-			// Load a normal
+			// Load each normal for the triangle
 			normalsBuffer.put(asFloats(normals.get((int)face.normal.x - 1)));
 			normalsBuffer.put(asFloats(normals.get((int)face.normal.y - 1)));
 			normalsBuffer.put(asFloats(normals.get((int)face.normal.z - 1)));
@@ -66,7 +66,7 @@ public class Model
 		verticesBuffer.flip();
 		normalsBuffer.flip();
 		
-		// Bind VBO's
+		// Prepare VBOs' resource drawing system
 		glBindBuffer(GL_ARRAY_BUFFER, vboVertexHandle);
 		glBufferData(GL_ARRAY_BUFFER, verticesBuffer, GL_STATIC_DRAW);
 		
@@ -120,7 +120,7 @@ public class Model
 			// Setup drawing
 			//glColor3f(0.17f, 0.58f, 0.12f);		// This is choco color
 			//HandyUtils.setColorRGB(162, 162, 163);
-			HandyUtils.setColorRGB(204, 37, 79);
+			DrawUtils.setColorRGB(204, 37, 79);
 //			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 //			glMaterialf(GL_FRONT, GL_SHININESS, 5);
 			glMaterialf(GL_FRONT, GL_SHININESS, 10);

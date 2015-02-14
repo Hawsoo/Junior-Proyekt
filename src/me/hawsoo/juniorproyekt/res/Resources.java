@@ -31,6 +31,8 @@ public class Resources
 	
 	public static String dirRes = "/me/hawsoo/juniorproyekt/res/";
 	
+	public static int tileSize = 16;			// 16 by 16
+	
 	// Objects
 	public static Camera mainCamera;
 	public static Matrix4f modelViewMatrix;
