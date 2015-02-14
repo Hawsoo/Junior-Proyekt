@@ -132,7 +132,17 @@ public class LevelEditorApp
 		JMenuItem mntmHelpMenu = new JMenuItem("Help menu...");
 		mnHelp.add(mntmHelpMenu);
 		
-		JMenuItem mntmAboutProgram = new JMenuItem("About JP Level Editor");
+		JMenuItem mntmAboutProgram = new JMenuItem("About " + NAME);
+		mntmAboutProgram.addActionListener(
+				new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						// Create a dialog for about
+						new AboutApp(frame);
+					}
+				}
+				);
 		mnHelp.add(mntmAboutProgram);
 		
 		/*
