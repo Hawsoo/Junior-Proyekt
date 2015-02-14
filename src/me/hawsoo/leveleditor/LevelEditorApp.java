@@ -1,35 +1,25 @@
 package me.hawsoo.leveleditor;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.SpringLayout;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JInternalFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
-import javax.swing.JToggleButton;
-import javax.swing.JTabbedPane;
-import javax.swing.JToolBar;
-
-import java.awt.FlowLayout;
-
-import javax.swing.border.LineBorder;
-
-import java.awt.Color;
-
-import javax.swing.JScrollPane;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JComboBox;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.SpringLayout;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.LineBorder;
 
 public class LevelEditorApp
 {
@@ -119,7 +109,31 @@ public class LevelEditorApp
 		mnFile.addSeparator();
 		
 		JMenuItem mntmExit = new JMenuItem("Exit");
+		mntmExit.addActionListener(
+				new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						// LATER make the program ask if user wants to save, but only if the user hasn't saved yet
+						
+						// Quit the game
+						System.exit(0);
+					}
+				}
+				);
 		mnFile.add(mntmExit);
+		
+		/*
+		 * Help section of the menubar.
+		 */
+		JMenu mnHelp = new JMenu("Help");
+		menuBar.add(mnHelp);
+		
+		JMenuItem mntmHelpMenu = new JMenuItem("Help menu...");
+		mnHelp.add(mntmHelpMenu);
+		
+		JMenuItem mntmAboutProgram = new JMenuItem("About JP Level Editor");
+		mnHelp.add(mntmAboutProgram);
 		
 		/*
 		 * Topbar which contains basic controls.
@@ -161,9 +175,11 @@ public class LevelEditorApp
 		springLayout.putConstraint(SpringLayout.SOUTH, chckbxBacklayer, 0, SpringLayout.SOUTH, chckbxForelayer);
 		springLayout.putConstraint(SpringLayout.NORTH, chckbxBacklayer, 0, SpringLayout.NORTH, chckbxContentlayer);
 		springLayout.putConstraint(SpringLayout.WEST, chckbxBacklayer, 6, SpringLayout.EAST, chckbxContentlayer);
+		
 		JTabbedPane tabPalettePane = new JTabbedPane(JTabbedPane.TOP);
 		tabPalettePane.setFocusable(false);
 		springLayout.putConstraint(SpringLayout.NORTH, tabPalettePane, 6, SpringLayout.SOUTH, menuBar);
+		
 		tabPalettePane.setPreferredSize(new Dimension(256, 0));
 		springLayout.putConstraint(SpringLayout.EAST, tabPalettePane, -10, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(tabPalettePane);
