@@ -25,19 +25,21 @@ import static org.lwjgl.opengl.GL11.glOrtho;
 import static org.lwjgl.opengl.GL11.glPopMatrix;
 import static org.lwjgl.opengl.GL11.glPushMatrix;
 import static org.lwjgl.opengl.GL11.glRotatef;
-import static org.lwjgl.opengl.GL11.glScalef;
 import static org.lwjgl.opengl.GL11.glShadeModel;
 import static org.lwjgl.opengl.GL11.glTranslatef;
 import static org.lwjgl.opengl.GL11.glViewport;
 
 import java.awt.Point;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
 import me.hawsoo.juniorproyekt.engine.gameobject.gamestate.BETAgamestate;
 import me.hawsoo.juniorproyekt.engine.gameobject.gamestate.GameState;
-import me.hawsoo.juniorproyekt.engine.input.VC_Keyboard;
+import me.hawsoo.juniorproyekt.engine.input.VC_Controller;
 import me.hawsoo.juniorproyekt.engine.input.VirtualController;
 import me.hawsoo.juniorproyekt.res.Resources;
 
@@ -48,6 +50,11 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
+/**
+ * The main game loop.
+ * @author Administrator
+ *
+ */
 public class Game
 {
 	// Components
@@ -75,20 +82,19 @@ public class Game
 	public void launch()
 	{
 		// Create Window Icons
-//		try
-//		{
-//			windowicons =
-//					new ByteBuffer[]
-//							{
-//								ResourceLoad.importImageToByteBuffer(ImageIO.read(Game.class.getResource(Game.resourceDirectoryPath + "icon_16x16.png"))),
-//								ResourceLoad.importImageToByteBuffer(ImageIO.read(Game.class.getResource(Game.resourceDirectoryPath + "icon_32x32.png"))),
-//								ResourceLoad.importImageToByteBuffer(ImageIO.read(Game.class.getResource(Game.resourceDirectoryPath + "icon_48x48.png"))),
-//								ResourceLoad.importImageToByteBuffer(ImageIO.read(Game.class.getResource(Game.resourceDirectoryPath + "icon_64x64.png"))),
-//								ResourceLoad.importImageToByteBuffer(ImageIO.read(Game.class.getResource(Game.resourceDirectoryPath + "icon_128x128.png"))),
-//								ResourceLoad.importImageToByteBuffer(ImageIO.read(Game.class.getResource(Game.resourceDirectoryPath + "icon_256x256.png")))
-//							};
-//			
-//		} catch (IOException e) {}
+		try
+		{
+			windowicons = new ByteBuffer[]
+					{
+					Resources.importImageToByteBuffer(ImageIO.read(Game.class.getResource(Resources.dirRes + "icon_16x16.png"))),
+					Resources.importImageToByteBuffer(ImageIO.read(Game.class.getResource(Resources.dirRes + "icon_32x32.png"))),
+					Resources.importImageToByteBuffer(ImageIO.read(Game.class.getResource(Resources.dirRes + "icon_48x48.png"))),
+					Resources.importImageToByteBuffer(ImageIO.read(Game.class.getResource(Resources.dirRes + "icon_64x64.png"))),
+					Resources.importImageToByteBuffer(ImageIO.read(Game.class.getResource(Resources.dirRes + "icon_128x128.png"))),
+					Resources.importImageToByteBuffer(ImageIO.read(Game.class.getResource(Resources.dirRes + "icon_256x256.png")))
+					};
+			
+		} catch (IOException e) {}
 		
 		// Setup Display and Inputs
 		setupOpenGLDisplay(name, windowicons, isFullscreen, isVSync);
@@ -140,9 +146,12 @@ public class Game
 		Resources.init();
 		room = new BETAgamestate();
 		
-		controllers.add(new VC_Keyboard(
+		/*controllers.add(new VC_Keyboard(
 				Keyboard.KEY_LEFT, Keyboard.KEY_RIGHT, Keyboard.KEY_UP, Keyboard.KEY_DOWN,
-				Keyboard.KEY_C, Keyboard.KEY_X, Keyboard.KEY_Z));
+				Keyboard.KEY_C, Keyboard.KEY_X, Keyboard.KEY_Z));*/
+		controllers.add(new VC_Controller(
+				/*Keyboard.KEY_LEFT, Keyboard.KEY_RIGHT, Keyboard.KEY_UP, Keyboard.KEY_DOWN,
+				Keyboard.KEY_C, Keyboard.KEY_X, Keyboard.KEY_Z*/));
 		
 		int rot = 0;
 		
@@ -216,7 +225,7 @@ public class Game
 					Resources.mainCamera.updateCamera();
 					
 					// Update resources
-					Resources.update();
+					Resources.updateResources();
 					
 					// Update the room
 					room.update();

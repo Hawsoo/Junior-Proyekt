@@ -49,6 +49,7 @@ public class VC_Keyboard extends VirtualController
 		this.keyRight 	= keyRight;
 		this.keyUp 		= keyUp;
 		this.keyDown 	= keyDown;
+		
 		this.keyJump 	= keyJump;
 		this.keyAttack 	= keyAttack;
 		this.keyItem 	= keyItem;

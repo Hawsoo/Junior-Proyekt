@@ -32,7 +32,7 @@ public class Player extends Entity
 	{
 		super(x, y, grounds);
 		
-		movespeed = 0.7;
+		movespeed = 0.65;
 		friction = 0.5;
 		maxHspeed = 10;
 		maxClimbHeight = 2;
@@ -57,19 +57,25 @@ public class Player extends Entity
 		// Clamp movement
 		hspeed = Math.max(-maxHspeed, Math.min(maxHspeed, hspeed));
 		
-		// If on the ground...
+		// If in the air...
 		if (!EntityUtils.isColliding(getBounds(0, -1), grounds))
 		{
 			// Impose gravity; LATER make a 'gravitypoint' thing for magnet fields
 			vspeed -= gravityForce;
+			
+			// Jump lower if jump button is released
+			if (vspeed > 0 && !Game.controllers.get(Game.PLAYER_ONE).jump)
+			{
+				vspeed -= gravityForce;
+			}
 		}
-		// If in the air...
+		// If on the ground...
 		else
 		{
 			// Jump
 			if (Game.controllers.get(Game.PLAYER_ONE).jump && !prevJump)
 			{
-				vspeed = 15;
+				vspeed = 20;
 			}
 			
 			// If hasn't moved...

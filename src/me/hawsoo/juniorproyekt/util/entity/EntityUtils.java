@@ -55,29 +55,32 @@ public class EntityUtils
 			// Check if there is a collision
 			if (isColliding(entity.getBounds(0, vspDir), grounds))
 			{
-				// Try to climb out of it
 				boolean climbedOut = false;
-				for (int i = 1; i <= entity.getMaxClimbHeight(); i++)
+				if (vspDir > 0)
 				{
-					// Check if can go left
-					if (!isColliding(entity.getBounds(-i, vspDir), grounds))
+					// Try to climb out of it
+					for (int i = 1; i <= entity.getMaxClimbHeight(); i++)
 					{
-						// Move
-						entity.setX(entity.getX() - i);
-						entity.setY(entity.getY() + vspDir);
-						climbedOut = true;
+						// Check if can go left
+						if (!isColliding(entity.getBounds(-i, vspDir), grounds))
+						{
+							// Move
+							entity.setX(entity.getX() - i);
+							entity.setY(entity.getY() + vspDir);
+							climbedOut = true;
+						}
+						// Check if can go right
+						else if (!isColliding(entity.getBounds(i, vspDir), grounds))
+						{
+							// Move
+							entity.setX(entity.getX() + i);
+							entity.setY(entity.getY() + vspDir);
+							climbedOut = true;
+						}
+						
+						// Break if climbed out
+						if (climbedOut) break;
 					}
-					// Check if can go right
-					else if (!isColliding(entity.getBounds(i, vspDir), grounds))
-					{
-						// Move
-						entity.setX(entity.getX() + i);
-						entity.setY(entity.getY() + vspDir);
-						climbedOut = true;
-					}
-					
-					// Break if climbed out
-					if (climbedOut) break;
 				}
 				
 				// If it hasn't climbed out, then it's a wall

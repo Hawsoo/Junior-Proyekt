@@ -14,7 +14,10 @@ public class BETAgamestate extends GameState
 {
 	public BETAgamestate()
 	{
-		addGrounds(new Gnd_Reg_Line(-64, -64, 600, 40));
+		addGrounds(
+				new Gnd_Reg_Line(-256, -64, 600, 40),
+				new Gnd_Reg_Line(-256 + 600, -64 + 40, 6000, 6000),
+				new Gnd_Reg_Line(-256, -64, 40, 600));
 		
 		Player p = new Player(0, 0, getGrounds());
 		Resources.mainCamera.setFollowObj(p);

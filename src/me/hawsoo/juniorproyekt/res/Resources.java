@@ -1,8 +1,22 @@
 package me.hawsoo.juniorproyekt.res;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Transparency;
+import java.awt.color.ColorSpace;
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.ComponentColorModel;
+import java.awt.image.DataBuffer;
+import java.awt.image.DataBufferByte;
+import java.awt.image.Raster;
+import java.awt.image.WritableRaster;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.util.Hashtable;
 
 import me.hawsoo.juniorproyekt.util.Camera;
 import me.hawsoo.juniorproyekt.util.model.Model;
@@ -62,14 +76,14 @@ public class Resources
 		modelViewMatrix = mainCamera.createViewMatrix();
 		
 		// Trigger initalizing update
-		update();
+		updateResources();
 	}
 	
 	/**
 	 * For certain variables, they
 	 * must be updated every frame.
 	 */
-	public static void update()
+	public static void updateResources()
 	{
 		// Setup model view matrices
 		prevModelViewMatrix = modelViewMatrix;
@@ -87,5 +101,40 @@ public class Resources
 		buffer.put(values);
 		buffer.flip();
 		return buffer;
+	}
+	
+	/**
+	 * Creates a byte buffer texture from an image.
+	 * @param image - the image
+	 * @return the image as a bytebuffer
+	 */
+	public static ByteBuffer importImageToByteBuffer(BufferedImage image)
+	{
+		ByteBuffer imageBuffer;
+		WritableRaster raster;
+		BufferedImage texImage;
+		
+		// Create colormap of the bufferedimage
+		ColorModel glAlphaColorModel = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_sRGB), new int[] {8, 8, 8, 8}, true, false, Transparency.TRANSLUCENT, DataBuffer.TYPE_BYTE);
+		
+		raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE, image.getWidth(), image.getHeight(), 4, null);
+		texImage = new BufferedImage(glAlphaColorModel, raster, true, new Hashtable<Object, Object>());
+		
+		// Copy the source image into the produced image
+		Graphics g = texImage.getGraphics();
+		g.setColor(new Color(0f, 0f, 0f, 0f));
+		g.fillRect(0, 0, 256, 256);
+		g.drawImage(image, 0, 0, null);
+		
+		// Build a byte buffer from the temporary image to be used by OpenGL to produce a texture
+		byte[] data = ((DataBufferByte)texImage.getRaster().getDataBuffer()).getData();
+		
+		// Prepare byte buffer
+		imageBuffer = ByteBuffer.allocateDirect(data.length);
+		imageBuffer.order(ByteOrder.nativeOrder());
+		imageBuffer.put(data, 0, data.length);
+		imageBuffer.flip();
+		
+		return imageBuffer;
 	}
 }
