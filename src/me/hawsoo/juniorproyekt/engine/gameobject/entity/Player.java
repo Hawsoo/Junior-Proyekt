@@ -32,9 +32,9 @@ public class Player extends Entity
 	{
 		super(x, y, grounds);
 		
-		movespeed = 0.35;
-		friction = 0.25;
-		maxHspeed = 5;
+		movespeed = 0.7;
+		friction = 0.5;
+		maxHspeed = 10;
 		maxClimbHeight = 2;
 	}
 	
@@ -69,7 +69,6 @@ public class Player extends Entity
 			// Jump
 			if (Game.controllers.get(Game.PLAYER_ONE).jump && !prevJump)
 			{
-				System.out.println("Oui, j'ai fait caca.");
 				vspeed = 15;
 			}
 			

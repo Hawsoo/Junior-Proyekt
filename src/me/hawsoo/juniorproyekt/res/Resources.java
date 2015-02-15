@@ -31,7 +31,7 @@ public class Resources
 	
 	public static String dirRes = "/me/hawsoo/juniorproyekt/res/";
 	
-	public static int tileSize = 16;			// 16 by 16
+	public static int tileSize = 32;			// 32 by 32
 	
 	// Objects
 	public static Camera mainCamera;

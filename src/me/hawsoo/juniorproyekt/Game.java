@@ -212,6 +212,9 @@ public class Game
 				// UPDATE //
 				////////////
 				{
+					// Update the camera
+					Resources.mainCamera.updateCamera();
+					
 					// Update resources
 					Resources.update();
 					
@@ -254,7 +257,7 @@ public class Game
 							glTranslatef(-Resources.mainCamera.getPosition().x, -Resources.mainCamera.getPosition().y, 0);
 							
 							// BETA scaling is unnecessary in real concepts
-							glScalef(2 * scalefactor, 2 * scalefactor, 2 * scalefactor);
+//							glScalef(2 * scalefactor, 2 * scalefactor, 2 * scalefactor);
 							
 							// BETA lighting is moving independent from camera rotation
 							glLight(GL_LIGHT0, GL_POSITION, Resources.asFloatBuffer(new float[] {0, 0, 25, 1}));
