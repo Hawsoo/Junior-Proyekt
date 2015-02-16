@@ -39,6 +39,7 @@ public class Player extends Entity
 		friction = 0.5f;
 		maxHspeed = 10;
 		maxClimbHeight = 2;
+		facing = Direction.RIGHT;
 	}
 	
 	@Override
@@ -49,11 +50,13 @@ public class Player extends Entity
 		if (Game.controllers.get(Game.PLAYER_ONE).left && !Game.controllers.get(Game.PLAYER_ONE).right)
 		{
 			hspeed -= movespeed;
+			facing = Direction.LEFT;
 			moved = true;
 		}
 		else if (Game.controllers.get(Game.PLAYER_ONE).right && !Game.controllers.get(Game.PLAYER_ONE).left)
 		{
 			hspeed += movespeed;
+			facing = Direction.RIGHT;
 			moved = true;
 		}
 		
@@ -113,7 +116,7 @@ public class Player extends Entity
 	{
 		// BETA render a black rectangle
 		DrawUtils.setColorRGB(0, 0, 0);
-		collisionMap.drawRect((int)Math.round(x), (int)Math.round(y), this, true);
+		collisionMap.drawRect((int)Math.round(x), (int)Math.round(y), this, false);
 		
 		// Render children
 		weapon0.render();

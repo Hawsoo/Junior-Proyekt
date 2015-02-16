@@ -1,8 +1,11 @@
 package me.hawsoo.juniorproyekt.engine.gameobject.entity;
 
+import static org.lwjgl.opengl.GL11.glRotatef;
+import static org.lwjgl.opengl.GL11.glScalef;
+import static org.lwjgl.opengl.GL11.glTranslatef;
+
 import java.awt.Rectangle;
 
-import static org.lwjgl.opengl.GL11.*;
 import me.hawsoo.juniorproyekt.Game;
 import me.hawsoo.juniorproyekt.res.Resources;
 import me.hawsoo.juniorproyekt.util.drawing.DrawUtils;
@@ -42,7 +45,7 @@ class Keyframe
 	 * @param stageSteps - the number of frames
 	 * @return
 	 */
-	public static Keyframe process(Keyframe from, Keyframe to, int stageWaited, int stageSteps)
+	public static Keyframe process(Keyframe from, Keyframe to, int stageSteps)
 	{
 		// Calculate the total values
 		float totalX = to.xoff - from.xoff;
@@ -50,16 +53,16 @@ class Keyframe
 		float totalZangle = to.zAngle - from.zAngle;
 		
 		// Calculate delta values
-		float deltaX = totalX / stageSteps/* * stageWaited*/;
-		float deltaY = totalY / stageSteps/* * stageWaited*/;
-		float deltaZangle = totalZangle / stageSteps/* * stageWaited*/;
+		float deltaX = totalX / stageSteps;
+		float deltaY = totalY / stageSteps;
+		float deltaZangle = totalZangle / stageSteps;
 		
 		// Spit out
 		return new Keyframe(deltaX, deltaY, deltaZangle);
 	}
 }
 
-/**
+/** BETA object
  * This represents a weapon that
  * is a hunk of metal dubbed 'contra'.
  * @author Administrator
@@ -72,6 +75,11 @@ public class Contra extends Entity
 	private float xoff, yoff;
 	
 	// Components
+	private Direction currentfacing;
+	private float facingAngle;
+	private int flipFacingWaited = 0;
+	private boolean currentlyFlipping = false;
+	
 	private int orientation = 0;					// Orient. 0: parade rest; O1: attention; O2: on shoulder
 	private static final int MAX_ORIENTATION = 2;
 	private static final int MIN_ORIENTATION = 0;
@@ -97,11 +105,23 @@ public class Contra extends Entity
 		super(0, 0, null);
 		this.player = player;
 		
+		currentfacing = facing = this.player.facing;
+		if (facing == Direction.LEFT)
+		{
+			// Init in left
+			facingAngle = 180;
+		}
+		else if (facing == Direction.RIGHT)
+		{
+			// Init in right
+			facingAngle = 0;
+		}
+		
 		Rectangle bounds = player.getBounds(0, 0);
-		stage2 = new Keyframe(bounds.width / 2, bounds.height, 95);
-		stage1 = new Keyframe(bounds.width + (getBounds(0, 0).width / 2), bounds.height, 0);
-//		stage0 = new Keyframe(bounds.width + (getBounds(0, 0).width / 2), getBounds(0, 0).height / 2, 0);		// BETA parade rest
-		stage0 = new Keyframe(bounds.width / 2, getBounds(0, 0).height / 3, -90);		// BETA alt. parade rest
+		stage2 = new Keyframe(/*bounds.width / 2*/0, bounds.height, 95);
+		stage1 = new Keyframe(/*bounds.width + */(getBounds(0, 0).width/* / 2*/), bounds.height, 0);
+//		stage0 = new Keyframe(/*bounds.width + */(getBounds(0, 0).width/* / 2*/), getBounds(0, 0).height / 2, 0);		// BETA parade rest
+		stage0 = new Keyframe(/*-bounds.width / 2*/0, bounds.height / 3, -85);		// BETA alt. parade rest
 	}
 
 	@Override
@@ -113,6 +133,53 @@ public class Contra extends Entity
 	@Override
 	public void update()
 	{
+		if (!currentlyFlipping) facing = player.facing;
+		if (facing != currentfacing)
+		{
+			// Lock animation
+			currentlyFlipping = true;
+			
+			// Move to new facing direction
+			float flipRange = 180;
+			if (currentfacing == Direction.LEFT)
+			{
+				// Check if is first time
+				if (facingAngle == 180) flipFacingWaited = 0;
+				
+				// Flip partially
+				float deltaFlip = flipRange / STAGE_STEPS;
+				facingAngle -= deltaFlip;
+			}
+			else if (currentfacing == Direction.RIGHT)
+			{
+				// Check if is first time
+				if (facingAngle == 0) flipFacingWaited = 0;
+				
+				// Flip partially
+				float deltaFlip = flipRange / STAGE_STEPS;
+				facingAngle -= deltaFlip;
+			}
+			
+			// Check if done
+			flipFacingWaited++;
+			if (flipFacingWaited >= STAGE_STEPS)
+			{
+				// Break out
+				currentfacing = facing;
+				currentlyFlipping = false;
+				
+				// Reset angles
+				if (facing == Direction.LEFT)
+				{
+					facingAngle = 180;
+				}
+				else if (facing == Direction.RIGHT)
+				{
+					facingAngle = 0;
+				}
+			}
+		}
+		
 		// Change orientation if wanted
 		int orientationChangeRequest = 0;
 		if (Game.controllers.get(Game.PLAYER_ONE).up) orientationChangeRequest = 1;
@@ -132,15 +199,14 @@ public class Contra extends Entity
 			stageWaited++;
 			
 			// Get current keyframe
-			Keyframe currentframe = Keyframe.process(from, to, stageWaited, STAGE_STEPS);
+			Keyframe currentframe = Keyframe.process(from, to, STAGE_STEPS);
 			fromDeltaX += currentframe.xoff;
 			fromDeltaY += currentframe.yoff;
 			fromDeltaZangle += currentframe.zAngle;
 			
 			// Add onto basic animation
-			Rectangle bounds = player.getBounds(0, 0);
-			xoff = bounds.x + from.xoff + fromDeltaX;
-			yoff = bounds.y + from.yoff + fromDeltaY;
+			xoff = from.xoff + fromDeltaX;
+			yoff = from.yoff + fromDeltaY;
 			zAngle = from.zAngle + fromDeltaZangle;
 			
 			// If stage has been gone thru enough, then switch
@@ -150,9 +216,8 @@ public class Contra extends Entity
 		// On shoulder
 		if (aniStage == 2)
 		{
-			Rectangle bounds = player.getBounds(0, 0);
-			xoff = bounds.x + stage2.xoff;
-			yoff = bounds.y + stage2.yoff;
+			xoff = stage2.xoff;
+			yoff = stage2.yoff;
 			zAngle = stage2.zAngle;
 			
 			// Find next place to be
@@ -177,9 +242,8 @@ public class Contra extends Entity
 		// Attention
 		else if (aniStage == 1)
 		{
-			Rectangle bounds = player.getBounds(0, 0);
-			xoff = bounds.x + stage1.xoff;
-			yoff = bounds.y + stage1.yoff;
+			xoff = stage1.xoff;
+			yoff = stage1.yoff;
 			zAngle = stage1.zAngle;
 			
 			// Find next place to be
@@ -221,9 +285,8 @@ public class Contra extends Entity
 		// Parade rest
 		else if (aniStage == 0)
 		{
-			Rectangle bounds = player.getBounds(0, 0);
-			xoff = bounds.x + stage0.xoff;
-			yoff = bounds.y + stage0.yoff;
+			xoff = stage0.xoff;
+			yoff = stage0.yoff;
 			zAngle = stage0.zAngle;
 			
 			// Find next place to be
@@ -260,23 +323,29 @@ public class Contra extends Entity
 		
 //		yAngle = -90;
 		// Set orientation
-		applyTransformations(x + xoff, y + yoff);
-		glRotatef(-90, 0, 1, 0);
+//		applyTransformations(player.x/* + (xoff * facing.getMult())*/, player.y + yoff);
+		glTranslatef(player.x, player.y, 0);
+		glRotatef(facingAngle, 0, 1, 0);
+		glTranslatef(xoff, yoff, 0);
+		glRotatef(xAngle, 1, 0, 0);
+		glRotatef(yAngle, 0, 1, 0);
+		glRotatef(zAngle, 0, 0, 1);
 		
 		// Correct model
 		float scale = 5;
 		glTranslatef(Resources.tileSize / 2, -Resources.tileSize, -10);
+		glRotatef(-90, 0, 1, 0);
 		glScalef(scale, scale, scale);
 		{
 			// Render model
 			Resources.contra.render();
 		}
 		// Take off transformations
-		glScalef(-scale, -scale, -scale);
-		glTranslatef(-Resources.tileSize / 2, Resources.tileSize, 10);
-		
-		// Take off orientation
-		glRotatef(-90, 0, -1, 0);
-		takeOffTransformations(x + xoff, y + yoff);
+//		glScalef(-scale, -scale, -scale);
+//		glTranslatef(-Resources.tileSize / 2, Resources.tileSize, 10);
+//		
+//		// Take off orientation
+//		glRotatef(-90, 0, -1, 0);
+//		takeOffTransformations(player.x + (xoff * facing.getMult()), player.y + yoff);
 	}
 }

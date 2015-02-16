@@ -165,7 +165,7 @@ public class Game
 				{
 					Mouse.poll();
 					
-//					rot = Mouse.getX(); BETA here
+//					rot = Mouse.getX(); BETA captures mouse movement
 					
 					// Get all input
 					for (VirtualController controller : controllers)

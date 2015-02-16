@@ -21,6 +21,7 @@ public abstract class Entity extends GameObject
 	float x, y, hspeed, vspeed;
 	float movespeed, friction;
 	int maxHspeed, maxClimbHeight;
+	Direction facing;
 	List<Ground> grounds;
 	
 	protected float xAngle = 0;				// The 'pitch'
