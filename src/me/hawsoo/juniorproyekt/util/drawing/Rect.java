@@ -13,6 +13,7 @@ import static org.lwjgl.opengl.GL11.glDrawArrays;
 import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glEnableClientState;
 import static org.lwjgl.opengl.GL11.glPolygonMode;
+import static org.lwjgl.opengl.GL11.glRotatef;
 import static org.lwjgl.opengl.GL11.glTranslatef;
 import static org.lwjgl.opengl.GL11.glVertexPointer;
 import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
@@ -24,6 +25,8 @@ import static org.lwjgl.opengl.GL20.glUseProgram;
 
 import java.awt.Rectangle;
 import java.nio.FloatBuffer;
+
+import me.hawsoo.juniorproyekt.engine.gameobject.entity.Entity;
 
 import org.lwjgl.BufferUtils;
 
@@ -42,17 +45,20 @@ public class Rect
 	// Original data
 	public int width;
 	public int height;
+	private int xoff, yoff;
 	
 	/**
 	 * Prepares a rectangle VBO.
 	 * @param width
 	 * @param height
 	 */
-	public Rect(int width, int height)
+	public Rect(int width, int height, int xoff, int yoff)
 	{
 		// Store data
 		this.width = width;
 		this.height = height;
+		this.xoff = xoff;
+		this.yoff = yoff;
 		
 		// Generate handle
 		vboVertexHandle = glGenBuffers();
@@ -61,14 +67,14 @@ public class Rect
 		FloatBuffer verticesBuffer = BufferUtils.createFloatBuffer(VERTICES);
 		
 		// Add first triangle
-		verticesBuffer.put(new float[] {0, 		0, 		0});
-		verticesBuffer.put(new float[] {width, 	0, 		0});
-		verticesBuffer.put(new float[] {0, 		height, 0});
+		verticesBuffer.put(new float[] {xoff, 			yoff, 			0});
+		verticesBuffer.put(new float[] {width + xoff,	yoff, 			0});
+		verticesBuffer.put(new float[] {xoff, 			height + yoff,	0});
 		
 		// Add second triangle
-		verticesBuffer.put(new float[] {width, 	height, 0});
-		verticesBuffer.put(new float[] {0, 		height, 0});
-		verticesBuffer.put(new float[] {width, 	0, 		0});
+		verticesBuffer.put(new float[] {width + xoff, 	height + yoff,	0});
+		verticesBuffer.put(new float[] {xoff, 			height + yoff,	0});
+		verticesBuffer.put(new float[] {width + xoff, 	yoff,			0});
 		
 		// Finish VBO
 		verticesBuffer.flip();
@@ -87,7 +93,7 @@ public class Rect
 	 * @param y
 	 * @param isOutline - if the renctangle is an outline.
 	 */
-	public void drawRect(int x, int y, boolean isOutline)
+	public void drawRect(int x, int y, Entity entity, boolean isOutline)
 	{
 		// Disable lighting
 		glDisable(GL_LIGHTING);
@@ -103,6 +109,9 @@ public class Rect
 		
 		// Push on offset
 		glTranslatef(x, y, 0);
+		glRotatef(entity.getxAngle(), 1, 0, 0);
+		glRotatef(entity.getyAngle(), 0, 1, 0);
+		glRotatef(entity.getzAngle(), 0, 0, 1);
 		{
 			// Setup VBO
 			glBindBuffer(GL_ARRAY_BUFFER, vboVertexHandle);
@@ -118,6 +127,9 @@ public class Rect
 			glDisableClientState(GL_VERTEX_ARRAY);
 		}
 		// Take off offset
+		glRotatef(entity.getxAngle(), -1, 0, 0);
+		glRotatef(entity.getyAngle(), 0, -1, 0);
+		glRotatef(entity.getzAngle(), 0, 0, -1);
 		glTranslatef(-x, -y, 0);
 		
 		// Unbind
@@ -141,6 +153,6 @@ public class Rect
 	 */
 	public Rectangle getAWTrect(int x, int y)
 	{
-		return new Rectangle(x, y, width, height);
+		return new Rectangle(x + xoff, y + yoff, width, height);
 	}
 }

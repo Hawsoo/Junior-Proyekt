@@ -1,5 +1,8 @@
 package me.hawsoo.juniorproyekt.engine.gameobject.entity;
 
+import static org.lwjgl.opengl.GL11.glRotatef;
+import static org.lwjgl.opengl.GL11.glTranslatef;
+
 import java.awt.Rectangle;
 import java.util.List;
 
@@ -15,10 +18,14 @@ import me.hawsoo.juniorproyekt.engine.gameobject.entity.ground.Ground;
 public abstract class Entity extends GameObject
 {
 	// Components
-	double x, y, hspeed, vspeed;
-	double movespeed, friction;
+	float x, y, hspeed, vspeed;
+	float movespeed, friction;
 	int maxHspeed, maxClimbHeight;
 	List<Ground> grounds;
+	
+	protected float xAngle = 0;				// The 'pitch'
+	protected float yAngle = 0;				// The 'roll'
+	protected float zAngle = 0;				// The 'angle'
 	
 	/**
 //	 * Sets up an entity within a <code>GameState</code>
@@ -41,28 +48,52 @@ public abstract class Entity extends GameObject
 	 */
 	public abstract Rectangle getBounds(int xoff, int yoff);
 	
+	/**
+	 * Applies transformations for 
+	 * the entity.
+	 */
+	public void applyTransformations(float x, float y)
+	{
+		glTranslatef(x, y, 0);
+		glRotatef(getxAngle(), 1, 0, 0);
+		glRotatef(getyAngle(), 0, 1, 0);
+		glRotatef(getzAngle(), 0, 0, 1);
+	}
+	
+	/**
+	 * Takes off transformations for 
+	 * the entity.
+	 */
+	public void takeOffTransformations(float x, float y)
+	{
+		glRotatef(getxAngle(), -1, 0, 0);
+		glRotatef(getyAngle(), 0, -1, 0);
+		glRotatef(getzAngle(), 0, 0, -1);
+		glTranslatef(-x, -y, 0);
+	}
+	
 	// Getters
-	public double getX()
+	public float getX()
 	{
 		return x;
 	}
 
-	public double getY()
+	public float getY()
 	{
 		return y;
 	}
 
-	public double getHspeed()
+	public float getHspeed()
 	{
 		return hspeed;
 	}
 
-	public double getVspeed()
+	public float getVspeed()
 	{
 		return vspeed;
 	}
 
-	public double getFriction()
+	public float getFriction()
 	{
 		return friction;
 	}
@@ -71,29 +102,44 @@ public abstract class Entity extends GameObject
 	{
 		return maxClimbHeight;
 	}
+	
+	public float getxAngle()
+	{
+		return xAngle;
+	}
+
+	public float getyAngle()
+	{
+		return yAngle;
+	}
+
+	public float getzAngle()
+	{
+		return zAngle;
+	}
 
 	// Setters
-	public void setX(double x)
+	public void setX(float x)
 	{
 		this.x = x;
 	}
 
-	public void setY(double y)
+	public void setY(float y)
 	{
 		this.y = y;
 	}
 
-	public void setHspeed(double hspeed)
+	public void setHspeed(float hspeed)
 	{
 		this.hspeed = hspeed;
 	}
 
-	public void setVspeed(double vspeed)
+	public void setVspeed(float vspeed)
 	{
 		this.vspeed = vspeed;
 	}
 
-	public void setFriction(double friction)
+	public void setFriction(float friction)
 	{
 		this.friction = friction;
 	}
@@ -101,5 +147,20 @@ public abstract class Entity extends GameObject
 	public void setMaxClimbHeight(int maxClimbHeight)
 	{
 		this.maxClimbHeight = maxClimbHeight;
+	}
+	
+	public void setxAngle(float xAngle)
+	{
+		this.xAngle = xAngle;
+	}
+
+	public void setyAngle(float yAngle)
+	{
+		this.yAngle = yAngle;
+	}
+
+	public void setzAngle(float zAngle)
+	{
+		this.zAngle = zAngle;
 	}
 }

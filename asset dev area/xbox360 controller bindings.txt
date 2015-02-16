@@ -1,0 +1,16 @@
+Button 0: 0.0			-A
+Button 1: 0.0			-B
+Button 2: 0.0			-X
+Button 3: 0.0			-Y
+Button 4: 0.0			-Left Bumper
+Button 5: 0.0			-Right Bumper
+Button 6: 0.0			-Back
+Button 7: 0.0			-Start
+Button 8: 0.0			-Left joystick click
+Button 9: 0.0			-Right joystick click
+Hat Switch: 0.0			-???
+Y Axis: -0.008499265		-Left joystick up(-1.0) and down(1.0)
+X Axis: -0.04277104		-Left joystick left(-1.0) and right(1.0)
+Y Rotation: 0.06779587		-Right joystick up(-1.0) and down(1.0)
+X Rotation: -0.050522625	-Right joystick left(-1.0) and right(1.0)
+Z Axis: -1.5258789E-5		-Triggers left(-1.0) and right(1.0)

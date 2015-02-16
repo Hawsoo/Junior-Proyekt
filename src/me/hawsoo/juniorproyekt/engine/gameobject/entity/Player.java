@@ -18,9 +18,12 @@ import me.hawsoo.juniorproyekt.util.entity.EntityUtils;
 public class Player extends Entity
 {
 	// Components
-	private Rect collisionMap = new Rect(Resources.tileSize, Resources.tileSize * 2);		// BETA for collision mapping
+	private Rect collisionMap = new Rect(Resources.tileSize, Resources.tileSize * 2, -(Resources.tileSize / 2), 0);		// BETA for collision mapping
 	private double gravityForce = 1;
 	private boolean prevJump = false;
+	
+	// Weapons
+	private Contra weapon0 = new Contra(this);
 	
 	/**
 	 * Sets up a player
@@ -32,8 +35,8 @@ public class Player extends Entity
 	{
 		super(x, y, grounds);
 		
-		movespeed = 0.65;
-		friction = 0.5;
+		movespeed = 0.65f;
+		friction = 0.5f;
 		maxHspeed = 10;
 		maxClimbHeight = 2;
 	}
@@ -48,7 +51,7 @@ public class Player extends Entity
 			hspeed -= movespeed;
 			moved = true;
 		}
-		else if (Game.controllers.get(Game.PLAYER_ONE).right)
+		else if (Game.controllers.get(Game.PLAYER_ONE).right && !Game.controllers.get(Game.PLAYER_ONE).left)
 		{
 			hspeed += movespeed;
 			moved = true;
@@ -98,6 +101,9 @@ public class Player extends Entity
 		// Move and collide
 		EntityUtils.move(this, grounds);
 		
+		// Update children
+		weapon0.update();
+		
 		// Update lagging variables
 		prevJump = Game.controllers.get(Game.PLAYER_ONE).jump;
 	}
@@ -107,14 +113,16 @@ public class Player extends Entity
 	{
 		// BETA render a black rectangle
 		DrawUtils.setColorRGB(0, 0, 0);
-		collisionMap.drawRect((int)Math.round(x - (Resources.tileSize / 2)), (int)Math.round(y), true);
+		collisionMap.drawRect((int)Math.round(x), (int)Math.round(y), this, true);
+		
+		// Render children
+		weapon0.render();
 	}
 
 	@Override
 	public Rectangle getBounds(int xoff, int yoff)
 	{
-		// Return with origin at bottom-middle
-		return collisionMap.getAWTrect((int)x - (collisionMap.width / 2) + xoff, (int)y + yoff);
+		return collisionMap.getAWTrect((int)x + xoff, (int)y + yoff);
 	}
 	
 }

@@ -68,7 +68,7 @@ public class Resources
 		
 		try
 		{
-			contra = ObjModel.loadModel(Resources.class.getResourceAsStream(dirRes + "model/wt_teapot.obj"));
+			contra = ObjModel.loadModel(Resources.class.getResourceAsStream(dirRes + "model/contra.obj"));
 			contra.shader = defaultShader;
 		} catch (IOException e) {}
 		
