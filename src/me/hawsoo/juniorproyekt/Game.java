@@ -39,7 +39,7 @@ import javax.imageio.ImageIO;
 
 import me.hawsoo.juniorproyekt.engine.gameobject.gamestate.BETAgamestate;
 import me.hawsoo.juniorproyekt.engine.gameobject.gamestate.GameState;
-import me.hawsoo.juniorproyekt.engine.input.VC_Controller;
+import me.hawsoo.juniorproyekt.engine.input.VC_Keyboard;
 import me.hawsoo.juniorproyekt.engine.input.VirtualController;
 import me.hawsoo.juniorproyekt.res.Resources;
 
@@ -146,12 +146,16 @@ public class Game
 		Resources.init();
 		room = new BETAgamestate();
 		
-		/*controllers.add(new VC_Keyboard(
+		// LATER configure better input system
+		// Keyboard input
+		controllers.add(new VC_Keyboard(
 				Keyboard.KEY_LEFT, Keyboard.KEY_RIGHT, Keyboard.KEY_UP, Keyboard.KEY_DOWN,
-				Keyboard.KEY_C, Keyboard.KEY_X, Keyboard.KEY_Z));*/
-		controllers.add(new VC_Controller(
-				/*Keyboard.KEY_LEFT, Keyboard.KEY_RIGHT, Keyboard.KEY_UP, Keyboard.KEY_DOWN,
-				Keyboard.KEY_C, Keyboard.KEY_X, Keyboard.KEY_Z*/));
+				Keyboard.KEY_C, Keyboard.KEY_X, Keyboard.KEY_Z));
+		
+		// Controller input
+//		controllers.add(new VC_Controller(
+//				/*Keyboard.KEY_LEFT, Keyboard.KEY_RIGHT, Keyboard.KEY_UP, Keyboard.KEY_DOWN,
+//				Keyboard.KEY_C, Keyboard.KEY_X, Keyboard.KEY_Z*/));
 		
 		int rot = 0;
 		

@@ -5,62 +5,15 @@ import static org.lwjgl.opengl.GL11.glScalef;
 import static org.lwjgl.opengl.GL11.glTranslatef;
 
 import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import me.hawsoo.juniorproyekt.Game;
+import me.hawsoo.juniorproyekt.engine.gameobject.entity.animation.keyframe.Keyframe;
+import me.hawsoo.juniorproyekt.engine.gameobject.entity.animation.keyframe.KeyframeManager;
 import me.hawsoo.juniorproyekt.res.Resources;
 import me.hawsoo.juniorproyekt.util.drawing.DrawUtils;
 import me.hawsoo.juniorproyekt.util.drawing.Rect;
-
-/**
- * This contains keyframe data.
- * @author Administrator
- *
- */
-class Keyframe
-{
-	// Components
-	public float xoff;
-	public float yoff;
-	public float zAngle;
-	
-	/**
-	 * Creates a keyframe for animations.
-	 * @param xoff - the primitive xoff
-	 * @param yoff - primitive yoff
-	 * @param zAngle - the absolute zAngle
-	 */
-	public Keyframe(float xoff, float yoff, float zAngle)
-	{
-		super();
-		this.xoff = xoff;
-		this.yoff = yoff;
-		this.zAngle = zAngle;
-	}
-	
-	/**
-	 * Finds the current frame.
-	 * @param from - the from state
-	 * @param to - the target state
-	 * @param stageWaited - the current frame
-	 * @param stageSteps - the number of frames
-	 * @return
-	 */
-	public static Keyframe process(Keyframe from, Keyframe to, int stageSteps)
-	{
-		// Calculate the total values
-		float totalX = to.xoff - from.xoff;
-		float totalY = to.yoff - from.yoff;
-		float totalZangle = to.zAngle - from.zAngle;
-		
-		// Calculate delta values
-		float deltaX = totalX / stageSteps;
-		float deltaY = totalY / stageSteps;
-		float deltaZangle = totalZangle / stageSteps;
-		
-		// Spit out
-		return new Keyframe(deltaX, deltaY, deltaZangle);
-	}
-}
 
 /** BETA object
  * This represents a weapon that
@@ -84,6 +37,8 @@ public class Contra extends Entity
 	private static final int MAX_ORIENTATION = 2;
 	private static final int MIN_ORIENTATION = 0;
 	private boolean prevChangedOrientation = false;	// Tracks up/down registers
+	
+	private KeyframeManager manager;
 	
 	private int aniStage = 0;						// Stage 0: parade rest; S1: attention; S2: on shoulder; S-1: in-between
 	private int aniTargetStage = 0;
@@ -122,6 +77,12 @@ public class Contra extends Entity
 		stage1 = new Keyframe(/*bounds.width + */(getBounds(0, 0).width/* / 2*/), bounds.height, 0);
 //		stage0 = new Keyframe(/*bounds.width + */(getBounds(0, 0).width/* / 2*/), getBounds(0, 0).height / 2, 0);		// BETA parade rest
 		stage0 = new Keyframe(/*-bounds.width / 2*/0, bounds.height / 3, -85);		// BETA alt. parade rest
+		
+		manager = new KeyframeManager(
+				new ArrayList<Keyframe>(
+						Arrays.asList(stage0, stage1, stage2)
+						)
+						);
 	}
 
 	@Override
@@ -190,124 +151,25 @@ public class Contra extends Entity
 		{
 			// Change and clamp
 			orientation += orientationChangeRequest;
-			orientation = Math.max(MIN_ORIENTATION, Math.min(MAX_ORIENTATION, orientation));
-		}
-		
-		// In-between keyframes stage
-		if (aniStage == -1)
-		{
-			stageWaited++;
 			
-			// Get current keyframe
-			Keyframe currentframe = Keyframe.process(from, to, STAGE_STEPS);
-			fromDeltaX += currentframe.xoff;
-			fromDeltaY += currentframe.yoff;
-			fromDeltaZangle += currentframe.zAngle;
-			
-			// Add onto basic animation
-			xoff = from.xoff + fromDeltaX;
-			yoff = from.yoff + fromDeltaY;
-			zAngle = from.zAngle + fromDeltaZangle;
-			
-			// If stage has been gone thru enough, then switch
-			if (stageWaited >= STAGE_STEPS) aniStage = aniTargetStage;
-		}
-		
-		// On shoulder
-		if (aniStage == 2)
-		{
-			xoff = stage2.xoff;
-			yoff = stage2.yoff;
-			zAngle = stage2.zAngle;
-			
-			// Find next place to be
-			if (orientation == 2)
+			int newOrient;
+			if (orientation == (newOrient = Math.max(MIN_ORIENTATION, Math.min(MAX_ORIENTATION, orientation))))
 			{
-				aniTargetStage = aniStage;
-			}
-			else if (orientation < 2)
-			{
-				aniTargetStage = 1;
-				aniStage = -1;
-				stageWaited = 0;
-				
-				from = stage2;
-				to = stage1;
-				
-				fromDeltaX = 0;
-				fromDeltaY = 0;
-				fromDeltaZangle = 0;
-			}
-		}
-		// Attention
-		else if (aniStage == 1)
-		{
-			xoff = stage1.xoff;
-			yoff = stage1.yoff;
-			zAngle = stage1.zAngle;
-			
-			// Find next place to be
-			if (orientation > 1)
-			{
-				aniTargetStage = 2;
-				aniStage = -1;
-				stageWaited = 0;
-				
-				from = stage1;
-				to = stage2;
-				
-				fromDeltaX = 0;
-				fromDeltaY = 0;
-				fromDeltaZangle = 0;
-			}
-			else if (orientation < 1)
-			{
-				aniTargetStage = 0;
-				aniStage = -1;
-				stageWaited = 0;
-				
-				from = stage1;
-				to = stage0;
-				
-				fromDeltaX = 0;
-				fromDeltaY = 0;
-				fromDeltaZangle = 0;
-				
-				// BETA
-//				targetStage = 1;
-//				aniStage = 1;
+				// Means nothing has changed; it passed the clamping test
+				manager.changeKeyframe(orientation, STAGE_STEPS);
 			}
 			else
 			{
-				aniTargetStage = aniStage;
+				// Something changed, pull orig. variable back
+				orientation = newOrient;
 			}
 		}
-		// Parade rest
-		else if (aniStage == 0)
-		{
-			xoff = stage0.xoff;
-			yoff = stage0.yoff;
-			zAngle = stage0.zAngle;
-			
-			// Find next place to be
-			if (orientation == 0)
-			{
-				aniTargetStage = aniStage;				
-			}
-			else if (orientation > 0)
-			{
-				aniTargetStage = 1;
-				aniStage = -1;
-				stageWaited = 0;
-				
-				from = stage0;
-				to = stage1;
-				
-				fromDeltaX = 0;
-				fromDeltaY = 0;
-				fromDeltaZangle = 0;
-			}
-		}
+		
+		// Update animation
+		Keyframe newKeyframe = manager.updateAnimation();
+		xoff = newKeyframe.xoff;
+		yoff = newKeyframe.yoff;
+		zAngle = newKeyframe.zAngle;
 		
 		// Update lagging variables
 		prevChangedOrientation = orientationChangeRequested;
@@ -324,6 +186,7 @@ public class Contra extends Entity
 //		yAngle = -90;
 		// Set orientation
 //		applyTransformations(player.x/* + (xoff * facing.getMult())*/, player.y + yoff);
+		// Normalize drawing area
 		glTranslatef(player.x, player.y, 0);
 		glRotatef(facingAngle, 0, 1, 0);
 		glTranslatef(xoff, yoff, 0);

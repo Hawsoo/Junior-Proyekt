@@ -116,7 +116,7 @@ public class Player extends Entity
 	{
 		// BETA render a black rectangle
 		DrawUtils.setColorRGB(0, 0, 0);
-		collisionMap.drawRect((int)Math.round(x), (int)Math.round(y), this, false);
+		collisionMap.drawRect((int)Math.round(x), (int)Math.round(y), this, true);
 		
 		// Render children
 		weapon0.render();
