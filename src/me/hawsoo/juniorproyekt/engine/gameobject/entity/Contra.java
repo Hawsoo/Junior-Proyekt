@@ -73,7 +73,7 @@ public class Contra extends Entity
 		}
 		
 		Rectangle bounds = player.getBounds(0, 0);
-		stage2 = new Keyframe(/*bounds.width / 2*/0, bounds.height, 95);
+		stage2 = new Keyframe(/*bounds.width / 2*/0, bounds.height, 95 + 360);
 		stage1 = new Keyframe(/*bounds.width + */(getBounds(0, 0).width/* / 2*/), bounds.height, 0);
 //		stage0 = new Keyframe(/*bounds.width + */(getBounds(0, 0).width/* / 2*/), getBounds(0, 0).height / 2, 0);		// BETA parade rest
 		stage0 = new Keyframe(/*-bounds.width / 2*/0, bounds.height / 3, -85);		// BETA alt. parade rest
