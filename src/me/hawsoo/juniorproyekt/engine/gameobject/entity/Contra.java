@@ -49,7 +49,6 @@ public class Contra extends Entity
 	private Keyframe from, to;
 	private float fromDeltaX, fromDeltaY, fromDeltaZangle;
 	
-	
 	/**
 	 * Creates a contra (dependency
 	 * to the player).

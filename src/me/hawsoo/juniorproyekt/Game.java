@@ -146,7 +146,7 @@ public class Game
 		Resources.init();
 		room = new BETAgamestate();
 		
-		// LATER configure better input system
+		// FIXME configure better input system
 		// Keyboard input
 		controllers.add(new VC_Keyboard(
 				Keyboard.KEY_LEFT, Keyboard.KEY_RIGHT, Keyboard.KEY_UP, Keyboard.KEY_DOWN,

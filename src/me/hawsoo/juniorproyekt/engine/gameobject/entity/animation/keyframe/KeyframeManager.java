@@ -14,11 +14,15 @@ public class KeyframeManager
 	private ArrayList<Keyframe> keyframes;
 	
 	// Current frame components
-	private int stageSteps = 1;			// This is per-stage, not total
-	private int stageWaited = 0;		// How much time waited already
-	private int actualKeyframeID = 0;	// This keeps track of progress
-	private int targetKeyframeID = 0;	// This is the over-arching goal
-	private Keyframe deltaFrameAccumulation;
+	private int stageSteps = 1;							// This is per-stage, not total
+	private int stageWaited = 0;						// How much time waited already
+	private int actualKeyframeID = 0;					// This keeps track of progress
+	private int targetKeyframeID = 0;					// This is the over-arching goal
+	private Keyframe deltaFrameAccumulation;			// Total delta movements accumulated during the animation
+	
+	private boolean inbetweenAnimations = false;		// Indicates if ready for another animation or not
+	private int requestedKeyframeID = 0;				// This keeps animations from skipping
+	private boolean newKeyframeRequested = false;
 	
 	/**
 	 * Sets up the manager.
@@ -46,7 +50,16 @@ public class KeyframeManager
 	 */
 	public void changeKeyframe(int id, int stageSteps)
 	{
-		targetKeyframeID = id;
+		if (!inbetweenAnimations)
+		{
+			targetKeyframeID = id;
+		}
+		else
+		{
+			newKeyframeRequested = true;
+			requestedKeyframeID = id;
+		}
+		
 		this.stageSteps = stageSteps;
 	}
 	
@@ -71,6 +84,8 @@ public class KeyframeManager
 		// Calculate keyframe offsets...
 		if (next != 0)
 		{
+			inbetweenAnimations = true;
+			
 			// Get next frame
 			Keyframe fromKeyframe = keyframes.get(actualKeyframeID);
 			Keyframe deltaFrame = Keyframe.findDeltaFrame(fromKeyframe, keyframes.get(actualKeyframeID + next), stageSteps);
@@ -88,6 +103,13 @@ public class KeyframeManager
 				deltaFrameAccumulation = new Keyframe(0, 0, 0);
 				stageWaited = 0;
 				
+				// Get new keyframe if requested
+				if (newKeyframeRequested)
+				{
+					newKeyframeRequested = false;
+					targetKeyframeID = requestedKeyframeID;
+				}
+				
 				// Switch ahead
 				actualKeyframeID += next;
 				return keyframes.get(actualKeyframeID);
@@ -99,6 +121,8 @@ public class KeyframeManager
 		// Offsets are unnecessary...
 		else
 		{
+			inbetweenAnimations = false;
+			
 			// Get the original keyframe
 			return keyframes.get(actualKeyframeID);
 		}
