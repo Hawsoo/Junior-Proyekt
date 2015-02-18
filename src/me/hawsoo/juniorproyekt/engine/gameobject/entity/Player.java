@@ -114,8 +114,8 @@ public class Player extends Entity
 	@Override
 	public void render()
 	{
-		// BETA render a black rectangle
-		DrawUtils.setColorRGB(0, 0, 0);
+		// BETA render a white rectangle
+		DrawUtils.setColorRGB(255, 255, 255);
 		collisionMap.drawRect((int)Math.round(x), (int)Math.round(y), this, true);
 		
 		// Render children
