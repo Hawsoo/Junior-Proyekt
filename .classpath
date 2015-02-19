@@ -5,41 +5,41 @@
 	<classpathentry kind="lib" path="lib/jinput.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:platform:/resource/Junior-Proyekt/lwjgl-docs.zip!/javadoc"/>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Junior-Proyekt/native/windows"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Junior-Proyekt/native"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/jogg.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:platform:/resource/Junior-Proyekt/lwjgl-docs.zip!/javadoc"/>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Junior-Proyekt/native/windows"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Junior-Proyekt/native"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/jorbis.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:platform:/resource/Junior-Proyekt/lwjgl-docs.zip!/javadoc"/>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Junior-Proyekt/native/windows"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Junior-Proyekt/native"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/lwjgl_util.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:platform:/resource/Junior-Proyekt/lwjgl-docs.zip!/javadoc"/>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Junior-Proyekt/native/windows"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Junior-Proyekt/native"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/lwjgl.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:platform:/resource/Junior-Proyekt/lwjgl-docs.zip!/javadoc"/>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Junior-Proyekt/native/windows"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Junior-Proyekt/native"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/slick-util.jar" sourcepath="slick-util-src.zip">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Junior-Proyekt/native/windows"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Junior-Proyekt/native"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/GJAPI.jar" sourcepath="Game-Jolt-Java-API.zip">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Junior-Proyekt/native/windows"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Junior-Proyekt/native"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
