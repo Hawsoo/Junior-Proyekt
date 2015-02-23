@@ -26,9 +26,9 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Junior-Proyekt/native"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/lwjgl.jar">
+	<classpathentry kind="lib" path="lib/lwjgl.jar" sourcepath="lwjgl3-src.zip">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/Junior-Proyekt/lwjgl-docs.zip!/javadoc"/>
+			<attribute name="javadoc_location" value="jar:platform:/resource/Junior-Proyekt/lwjgl3-javadoc.zip!/"/>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Junior-Proyekt/native"/>
 		</attributes>
 	</classpathentry>
