@@ -10,7 +10,7 @@ import me.hawsoo.juniorproyekt.engine.gameobject.entity.ground.Ground;
 /**
  * This class represents a 'room'
  * in the game.
- * @author Administrator
+ * @author Hawsoo
  *
  */
 public abstract class GameState extends GameObject

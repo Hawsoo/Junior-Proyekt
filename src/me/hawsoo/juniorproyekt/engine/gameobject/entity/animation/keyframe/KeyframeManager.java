@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * This class manages keyframe
  * animations and timing and such.
- * @author Administrator
+ * @author Hawsoo
  *
  */
 public class KeyframeManager

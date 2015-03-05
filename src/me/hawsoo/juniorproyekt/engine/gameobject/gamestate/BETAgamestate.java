@@ -7,7 +7,7 @@ import me.hawsoo.juniorproyekt.res.Resources;
 /**
  * This gamestate will serve as a
  * beta world.
- * @author Administrator
+ * @author Hawsoo
  *
  */
 public class BETAgamestate extends GameState

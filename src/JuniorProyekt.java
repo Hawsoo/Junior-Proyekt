@@ -2,7 +2,7 @@ import me.hawsoo.juniorproyekt.Game;
 
 /**
  * This class starts the game.
- * @author Administrator
+ * @author Hawsoo
  *
  */
 public class JuniorProyekt

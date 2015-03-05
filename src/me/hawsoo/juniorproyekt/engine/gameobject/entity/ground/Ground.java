@@ -7,7 +7,7 @@ import me.hawsoo.juniorproyekt.engine.gameobject.entity.Entity;
 /**
  * This is the representation
  * of ground to an entity.
- * @author Administrator
+ * @author Hawsoo
  *
  */
 public abstract class Ground extends Entity

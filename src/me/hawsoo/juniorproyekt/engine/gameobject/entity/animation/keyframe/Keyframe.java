@@ -2,7 +2,7 @@ package me.hawsoo.juniorproyekt.engine.gameobject.entity.animation.keyframe;
 
 /**
  * This contains keyframe data.
- * @author Administrator
+ * @author Hawsoo
  *
  */
 public class Keyframe

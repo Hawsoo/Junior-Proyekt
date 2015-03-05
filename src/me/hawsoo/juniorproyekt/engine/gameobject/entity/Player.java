@@ -12,7 +12,7 @@ import me.hawsoo.juniorproyekt.util.entity.EntityUtils;
 
 /**
  * This is the player of the game.
- * @author Administrator
+ * @author Hawsoo
  *
  */
 public class Player extends Entity

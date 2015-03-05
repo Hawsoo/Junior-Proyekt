@@ -3,7 +3,7 @@ package me.hawsoo.juniorproyekt.engine.gameobject;
 /**
  * This class represents the most basic
  * object the game can take in.
- * @author Administrator
+ * @author Hawsoo
  *
  */
 public abstract class GameObject

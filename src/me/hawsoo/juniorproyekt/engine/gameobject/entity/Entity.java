@@ -12,7 +12,7 @@ import me.hawsoo.juniorproyekt.engine.gameobject.entity.ground.Ground;
 /**
  * This class represents an
  * actual entity within the game.
- * @author Administrator
+ * @author Hawsoo
  *
  */
 public abstract class Entity extends GameObject

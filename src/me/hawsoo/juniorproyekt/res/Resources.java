@@ -30,7 +30,7 @@ import org.lwjgl.util.vector.Matrix4f;
 
 /**
  * Huge list of all the required resources.
- * @author Administrator
+ * @author Hawsoo
  *
  */
 public class Resources

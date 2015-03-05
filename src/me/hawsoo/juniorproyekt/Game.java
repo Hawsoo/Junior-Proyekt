@@ -1,6 +1,6 @@
 package me.hawsoo.juniorproyekt;
 
-import static org.lwjgl.opengl.GL11.GL_BACK;
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_COLOR_MATERIAL;
 import static org.lwjgl.opengl.GL11.GL_CULL_FACE;
@@ -53,7 +53,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 /**
  * The main game loop.
- * @author Administrator
+ * @author Hawsoo
  *
  */
 public class Game
@@ -281,20 +281,31 @@ public class Game
 						// BETA scaling is unnecessary in real concepts
 //						glScalef(2 * scalefactor, 2 * scalefactor, 2 * scalefactor);
 
+						// BETA add motion blur
+//						glAccum(GL_LOAD, 1.0f);
+//						glAccum(GL_ACCUM, 1.0f);		//adding the current frame to the buffer
+						{
 
-						// Rotate matrix to the camera
-						glRotatef(Resources.mainCamera.getAngle().x, 1, 0, 0);
-						glRotatef(Resources.mainCamera.getAngle().y, 0, 1, 0);
-						glRotatef(Resources.mainCamera.getAngle().z, 0, 0, 1);
+							// Rotate matrix to the camera
+							glRotatef(Resources.mainCamera.getAngle().x, 1, 0, 0);
+							glRotatef(Resources.mainCamera.getAngle().y, 0, 1, 0);
+							glRotatef(Resources.mainCamera.getAngle().z, 0, 0, 1);
 
-						// Render the room
-						room.render();
-//						glTranslatef(-0.5f * scalefactor, 0, 0);
-//						Resources.contra.render();		// BETA draws a contra bugle
+							// Render the room
+							room.render();
+							//						glTranslatef(-0.5f * scalefactor, 0, 0);
+							//						Resources.contra.render();		// BETA draws a contra bugle
 
-//						glTranslatef(1 * scalefactor, 0, 0);
-//						Resources.contra.render();
-
+							//						glTranslatef(1 * scalefactor, 0, 0);
+							//						Resources.contra.render();
+						}
+						// BETA undo
+//						glAccum(GL_RETURN, 1f);			//Drawing last frame, saved in buffer
+//						glAccum(GL_MULT, 0.75f);		//make current frame in buffer dim
+						
+						glAccum(GL_MULT, 0.5f);
+						glAccum(GL_ACCUM, 0.5f);
+						glAccum(GL_RETURN, 1.0f);
 					}
 					// Exit renderpass
 					glPopMatrix();

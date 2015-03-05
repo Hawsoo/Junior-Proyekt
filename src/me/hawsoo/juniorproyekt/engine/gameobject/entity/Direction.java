@@ -4,7 +4,7 @@ package me.hawsoo.juniorproyekt.engine.gameobject.entity;
  * This is an enum representing
  * the direction an entity is facing
  * (LEFT or RIGHT).
- * @author Administrator
+ * @author Hawsoo
  *
  */
 public enum Direction
