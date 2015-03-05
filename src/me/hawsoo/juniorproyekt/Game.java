@@ -42,6 +42,7 @@ import me.hawsoo.juniorproyekt.engine.gameobject.gamestate.GameState;
 import me.hawsoo.juniorproyekt.engine.input.VC_Keyboard;
 import me.hawsoo.juniorproyekt.engine.input.VirtualController;
 import me.hawsoo.juniorproyekt.res.Resources;
+import me.hawsoo.juniorproyekt.util.drawing.Rect;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Controllers;
@@ -75,6 +76,10 @@ public class Game
 	
 	// BETA model scaling
 	private static int scalefactor = 1/*00*/;
+	
+	// BETA 3D vector
+	private static Vector3f betaVec = new Vector3f(0, 0, 0);
+	private static int betaVecMoveSpeed = 5;
 	
 	/**
 	 * Starts the whole game.
@@ -169,6 +174,15 @@ public class Game
 				{
 					Mouse.poll();
 					
+					// BETA move vector
+					if (Keyboard.isKeyDown(Keyboard.KEY_W)) betaVec = new Vector3f(betaVec.x, betaVec.y + betaVecMoveSpeed, betaVec.z);
+					if (Keyboard.isKeyDown(Keyboard.KEY_A)) betaVec = new Vector3f(betaVec.x - betaVecMoveSpeed, betaVec.y, betaVec.z);
+					if (Keyboard.isKeyDown(Keyboard.KEY_S)) betaVec = new Vector3f(betaVec.x, betaVec.y - betaVecMoveSpeed, betaVec.z);
+					if (Keyboard.isKeyDown(Keyboard.KEY_D)) betaVec = new Vector3f(betaVec.x + betaVecMoveSpeed, betaVec.y, betaVec.z);
+					
+					if (Keyboard.isKeyDown(Keyboard.KEY_Q)) betaVec = new Vector3f(betaVec.x, betaVec.y, betaVec.z - betaVecMoveSpeed);
+					if (Keyboard.isKeyDown(Keyboard.KEY_E)) betaVec = new Vector3f(betaVec.x, betaVec.y, betaVec.z + betaVecMoveSpeed);
+					
 //					rot = Mouse.getX(); BETA captures mouse movement
 					
 					// Get all input
@@ -244,56 +258,46 @@ public class Game
 				////////////
 				// RENDER //
 				////////////
+
+				// Check if should render (based on the frame-skip value)
+				//					if ((renderPassCount % (frameSkip + 1)) == 0)
 				{
-					
-					// Check if should render (based on the frame-skip value)
-//					if ((renderPassCount % (frameSkip + 1)) == 0)
+					// Clear Buffers
+					glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+					glLoadIdentity();
+
+					// Enter renderpass
+					glPushMatrix();
 					{
-						// Clear Buffers
-						glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-						glLoadIdentity();
+						// BETA lighting is moving independent from camera rotation
+						glLight(GL_LIGHT0, GL_POSITION, Resources.asFloatBuffer(new float[] {Display.getWidth() / 2, Display.getHeight() / 2, 100, 1}));
+						System.out.println(betaVec);
+//						glLight(GL_LIGHT0, GL_POSITION, Resources.asFloatBuffer(new float[] {betaVec.x, betaVec.y, betaVec.z, 1}));
+//						new Rect(8, 8, -4, -4).drawRect((int)betaVec.x, (int)betaVec.y, null, false);
 						
-						// Enter renderpass
-						glPushMatrix();
-						{
-							// Offset camera
-//							glTranslatef(-Camera.x + (Display.getWidth() / 2), -Camera.y + (Display.getHeight() / 2), 0f);
-//							gamestate.render();
-							
-//							glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-							
-							
-//							glMaterialf(GL_FRONT, GL_SHININESS, 10.0f);
-							
-							
-							// Translate matrix to the camera
-							glTranslatef(-Resources.mainCamera.getPosition().x, -Resources.mainCamera.getPosition().y, 0);
-							
-							// BETA scaling is unnecessary in real concepts
-//							glScalef(2 * scalefactor, 2 * scalefactor, 2 * scalefactor);
-							
-							// BETA lighting is moving independent from camera rotation
-							glLight(GL_LIGHT0, GL_POSITION, Resources.asFloatBuffer(new float[] {0, 0, 25, 1}));
-							
-							// Rotate matrix to the camera
-							glRotatef(Resources.mainCamera.getAngle().x, 1, 0, 0);
-							glRotatef(Resources.mainCamera.getAngle().y, 0, 1, 0);
-							glRotatef(Resources.mainCamera.getAngle().z, 0, 0, 1);
-							
-							// Render the room
-							room.render();
-//							glTranslatef(-0.5f * scalefactor, 0, 0);
-//							Resources.contra.render();		// BETA draws a contra bugle
-							
-//							glTranslatef(1 * scalefactor, 0, 0);
-//							Resources.contra.render();
-							
-						}
-						// Exit renderpass
-						glPopMatrix();
+						// Translate matrix to the camera
+						glTranslatef(-Resources.mainCamera.getPosition().x, -Resources.mainCamera.getPosition().y, 0);
+
+						// BETA scaling is unnecessary in real concepts
+//						glScalef(2 * scalefactor, 2 * scalefactor, 2 * scalefactor);
+
+
+						// Rotate matrix to the camera
+						glRotatef(Resources.mainCamera.getAngle().x, 1, 0, 0);
+						glRotatef(Resources.mainCamera.getAngle().y, 0, 1, 0);
+						glRotatef(Resources.mainCamera.getAngle().z, 0, 0, 1);
+
+						// Render the room
+						room.render();
+//						glTranslatef(-0.5f * scalefactor, 0, 0);
+//						Resources.contra.render();		// BETA draws a contra bugle
+
+//						glTranslatef(1 * scalefactor, 0, 0);
+//						Resources.contra.render();
+
 					}
-					
-//					renderPassCount++;
+					// Exit renderpass
+					glPopMatrix();
 				}
 			}
 			
@@ -302,12 +306,8 @@ public class Game
 			
 			// Reiterate OpenGL (if changed)
 			if (displayWidth != Display.getWidth() || displayHeight != Display.getHeight()) setupOpenGLContext();
-//			currentDisplayWidth = Display.getWidth();
-//			currentDisplayHeight = Display.getHeight();
 			
 			// Update Display
-//			if ((renderPassCount % (frameSkip + 1)) == 0)
-			
 			Display.update();
 			Display.sync((int) fps);
 		}

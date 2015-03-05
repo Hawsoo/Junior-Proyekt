@@ -109,9 +109,12 @@ public class Rect
 		
 		// Push on offset
 		glTranslatef(x, y, 0);
-		glRotatef(entity.getxAngle(), 1, 0, 0);
-		glRotatef(entity.getyAngle(), 0, 1, 0);
-		glRotatef(entity.getzAngle(), 0, 0, 1);
+		if (entity != null)
+		{
+			glRotatef(entity.getxAngle(), 1, 0, 0);
+			glRotatef(entity.getyAngle(), 0, 1, 0);
+			glRotatef(entity.getzAngle(), 0, 0, 1);
+		}
 		{
 			// Setup VBO
 			glBindBuffer(GL_ARRAY_BUFFER, vboVertexHandle);
@@ -127,9 +130,12 @@ public class Rect
 			glDisableClientState(GL_VERTEX_ARRAY);
 		}
 		// Take off offset
-		glRotatef(entity.getxAngle(), -1, 0, 0);
-		glRotatef(entity.getyAngle(), 0, -1, 0);
-		glRotatef(entity.getzAngle(), 0, 0, -1);
+		if (entity != null)
+		{
+			glRotatef(entity.getxAngle(), -1, 0, 0);
+			glRotatef(entity.getyAngle(), 0, -1, 0);
+			glRotatef(entity.getzAngle(), 0, 0, -1);
+		}
 		glTranslatef(-x, -y, 0);
 		
 		// Unbind
