@@ -1,33 +1,6 @@
 package me.hawsoo.juniorproyekt;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_COLOR_MATERIAL;
-import static org.lwjgl.opengl.GL11.GL_CULL_FACE;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
-import static org.lwjgl.opengl.GL11.GL_DIFFUSE;
-import static org.lwjgl.opengl.GL11.GL_LIGHT0;
-import static org.lwjgl.opengl.GL11.GL_LIGHTING;
-import static org.lwjgl.opengl.GL11.GL_LIGHT_MODEL_AMBIENT;
-import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
-import static org.lwjgl.opengl.GL11.GL_POSITION;
-import static org.lwjgl.opengl.GL11.GL_PROJECTION;
-import static org.lwjgl.opengl.GL11.GL_SMOOTH;
-import static org.lwjgl.opengl.GL11.glClear;
-import static org.lwjgl.opengl.GL11.glCullFace;
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL11.glLight;
-import static org.lwjgl.opengl.GL11.glLightModel;
-import static org.lwjgl.opengl.GL11.glLoadIdentity;
-import static org.lwjgl.opengl.GL11.glMatrixMode;
-import static org.lwjgl.opengl.GL11.glOrtho;
-import static org.lwjgl.opengl.GL11.glPopMatrix;
-import static org.lwjgl.opengl.GL11.glPushMatrix;
-import static org.lwjgl.opengl.GL11.glRotatef;
-import static org.lwjgl.opengl.GL11.glShadeModel;
-import static org.lwjgl.opengl.GL11.glTranslatef;
-import static org.lwjgl.opengl.GL11.glViewport;
 
 import java.awt.Point;
 import java.io.IOException;
@@ -39,6 +12,7 @@ import javax.imageio.ImageIO;
 
 import me.hawsoo.juniorproyekt.engine.gameobject.gamestate.BETAgamestate;
 import me.hawsoo.juniorproyekt.engine.gameobject.gamestate.GameState;
+import me.hawsoo.juniorproyekt.engine.input.VC_Controller;
 import me.hawsoo.juniorproyekt.engine.input.VC_Keyboard;
 import me.hawsoo.juniorproyekt.engine.input.VirtualController;
 import me.hawsoo.juniorproyekt.res.Resources;
@@ -67,6 +41,8 @@ public class Game
 	public static float fps = 60;
 	private boolean running = true;
 	private int displayWidth = 0, displayHeight = 0;
+	
+	public int viewWidth = 0, viewHeight = 0;
 	
 	private GameState room;
 	
@@ -157,7 +133,7 @@ public class Game
 		// Keyboard input
 		controllers.add(new VC_Keyboard(
 				Keyboard.KEY_LEFT, Keyboard.KEY_RIGHT, Keyboard.KEY_UP, Keyboard.KEY_DOWN,
-				Keyboard.KEY_C, Keyboard.KEY_X, Keyboard.KEY_Z));
+				Keyboard.KEY_Z, Keyboard.KEY_X, Keyboard.KEY_C));
 		
 		// Controller input
 //		controllers.add(new VC_Controller(
@@ -184,6 +160,7 @@ public class Game
 					
 					if (Keyboard.isKeyDown(Keyboard.KEY_Q)) betaVec = new Vector3f(betaVec.x, betaVec.y, betaVec.z - betaVecMoveSpeed);
 					if (Keyboard.isKeyDown(Keyboard.KEY_E)) betaVec = new Vector3f(betaVec.x, betaVec.y, betaVec.z + betaVecMoveSpeed);
+					if (Keyboard.isKeyDown(Keyboard.KEY_F)) betaVec = new Vector3f(0, 0, 0);
 					
 //					rot = Mouse.getX(); BETA captures mouse movement
 					
@@ -272,10 +249,11 @@ public class Game
 					glPushMatrix();
 					{
 						// BETA lighting is moving independent from camera rotation
-						glLight(GL_LIGHT0, GL_POSITION, Resources.asFloatBuffer(new float[] {Display.getWidth() / 2, Display.getHeight() / 2, 100, 1}));
+						glLight(GL_LIGHT0, GL_POSITION, Resources.asFloatBuffer(new float[] {viewWidth / 2 + betaVec.x, viewHeight / 2/* + 150*/ + betaVec.y, 100 + betaVec.z, 1}));
 						System.out.println(betaVec);
 //						glLight(GL_LIGHT0, GL_POSITION, Resources.asFloatBuffer(new float[] {betaVec.x, betaVec.y, betaVec.z, 1}));
 //						new Rect(8, 8, -4, -4).drawRect((int)betaVec.x, (int)betaVec.y, null, false);
+//						new Rect(8, 8, -4, -4).drawRect(viewWidth / 2, viewHeight / 2, null, false);
 						
 						// Translate matrix to the camera
 						glTranslatef(-Resources.mainCamera.getPosition().x, -Resources.mainCamera.getPosition().y, 0);
@@ -384,12 +362,12 @@ public class Game
 //		glOrtho(0, Display.getWidth(), 0, Display.getHeight(), -100, 100);
 		
 		float heightRatio = Resources.STANDARD_DM.getHeight() / (float)Display.getHeight();
-		int standardWidth = (int)(Display.getWidth() * heightRatio);
-		int standardHeight = (int)(Display.getHeight() * heightRatio);
+		viewWidth = (int)(Display.getWidth() * heightRatio);
+		viewHeight = (int)(Display.getHeight() * heightRatio);
 		
-		Resources.halfwayPointTransformation = new Point(standardWidth / 2, standardHeight / 2);
+		Resources.halfwayPointTransformation = new Point(viewWidth / 2, viewHeight / 2);
 		
-		glOrtho(0, standardWidth, 0, standardHeight, -500, 500);
+		glOrtho(0, viewWidth, 0, viewHeight, -500, 500);
 		glMatrixMode(GL_MODELVIEW);
 		
 		// Add shading properties
@@ -404,7 +382,6 @@ public class Game
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
 		glEnable(GL_COLOR_MATERIAL);
-		
 		
 		// Update flags
 		displayWidth = Display.getWidth();

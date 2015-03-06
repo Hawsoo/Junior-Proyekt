@@ -16,7 +16,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 /**
  * Holds properties of a model.
- * @author Administrator
+ * @author Hawsoo
  *
  */
 public class Model
@@ -120,7 +120,7 @@ public class Model
 			// Setup drawing
 			//glColor3f(0.17f, 0.58f, 0.12f);		// This is choco color
 			//HandyUtils.setColorRGB(162, 162, 163);
-			DrawUtils.setColorRGB(204, 37, 79);
+			DrawUtils.setColorRGB(100, 100, 100);
 //			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 //			glMaterialf(GL_FRONT, GL_SHININESS, 5);
 			glMaterialf(GL_FRONT, GL_SHININESS, 10);

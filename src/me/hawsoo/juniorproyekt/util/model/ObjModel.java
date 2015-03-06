@@ -12,7 +12,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 /**
  * Manages OBJ models.
- * @author Administrator
+ * @author Hawsoo
  *
  */
 public class ObjModel
