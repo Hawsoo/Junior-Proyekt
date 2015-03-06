@@ -74,6 +74,8 @@ public class Game
 	public static final int PLAYER_ONE = 0;
 	public static List<VirtualController> controllers = new ArrayList<VirtualController>();
 	
+	public static boolean motionblur = false;
+	
 	// BETA model scaling
 	private static int scalefactor = 1/*00*/;
 	
@@ -303,9 +305,13 @@ public class Game
 //						glAccum(GL_RETURN, 1f);			//Drawing last frame, saved in buffer
 //						glAccum(GL_MULT, 0.75f);		//make current frame in buffer dim
 						
-						glAccum(GL_MULT, 0.5f);
-						glAccum(GL_ACCUM, 0.5f);
-						glAccum(GL_RETURN, 1.0f);
+						// Do motion blur
+						if (motionblur)
+						{
+							glAccum(GL_MULT, 0.5f);
+							glAccum(GL_ACCUM, 0.5f);
+							glAccum(GL_RETURN, 1.0f);
+						}
 					}
 					// Exit renderpass
 					glPopMatrix();
