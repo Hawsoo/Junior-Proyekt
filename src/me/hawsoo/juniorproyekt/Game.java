@@ -249,7 +249,7 @@ public class Game
 					glPushMatrix();
 					{
 						// BETA lighting is moving independent from camera rotation
-						glLight(GL_LIGHT0, GL_POSITION, Resources.asFloatBuffer(new float[] {viewWidth / 2 + betaVec.x, viewHeight / 2/* + 150*/ + betaVec.y, 100 + betaVec.z, 1}));
+						glLight(GL_LIGHT0, GL_POSITION, Resources.asFloatBuffer(new float[] {viewWidth / 2 + betaVec.x, viewHeight / 2 + 55 + betaVec.y, 100 + betaVec.z, 1}));
 						System.out.println(betaVec);
 //						glLight(GL_LIGHT0, GL_POSITION, Resources.asFloatBuffer(new float[] {betaVec.x, betaVec.y, betaVec.z, 1}));
 //						new Rect(8, 8, -4, -4).drawRect((int)betaVec.x, (int)betaVec.y, null, false);
@@ -265,7 +265,6 @@ public class Game
 //						glAccum(GL_LOAD, 1.0f);
 //						glAccum(GL_ACCUM, 1.0f);		//adding the current frame to the buffer
 						{
-
 							// Rotate matrix to the camera
 							glRotatef(Resources.mainCamera.getAngle().x, 1, 0, 0);
 							glRotatef(Resources.mainCamera.getAngle().y, 0, 1, 0);
