@@ -262,8 +262,8 @@ public class Game
 //						glScalef(2 * scalefactor, 2 * scalefactor, 2 * scalefactor);
 
 						// BETA add motion blur
-//						glAccum(GL_LOAD, 1.0f);
-//						glAccum(GL_ACCUM, 1.0f);		//adding the current frame to the buffer
+						glAccum(GL_LOAD, 1.0f);
+						glAccum(GL_ACCUM, 1.0f);		//adding the current frame to the buffer
 						{
 							// Rotate matrix to the camera
 							glRotatef(Resources.mainCamera.getAngle().x, 1, 0, 0);
@@ -279,8 +279,8 @@ public class Game
 							//						Resources.contra.render();
 						}
 						// BETA undo
-//						glAccum(GL_RETURN, 1f);			//Drawing last frame, saved in buffer
-//						glAccum(GL_MULT, 0.75f);		//make current frame in buffer dim
+						glAccum(GL_RETURN, 1f);			//Drawing last frame, saved in buffer
+						glAccum(GL_MULT, 0.75f);		//make current frame in buffer dim
 						
 						// Do motion blur
 						if (motionblur)
