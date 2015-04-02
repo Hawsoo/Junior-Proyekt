@@ -9,7 +9,7 @@ public class JuniorProyekt
 {
 	public static void main(String[] argv)
 	{
-		// Parse and print args
+		// Parse and print arguments
 		System.out.println("Arguments:");
 		for (int i = 0; i < argv.length; i++)
 		{
